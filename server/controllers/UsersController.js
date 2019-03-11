@@ -46,8 +46,20 @@ exports.createUser = (req, res) => {
                         userData.c_password = hash;
                         Users.create(userData)
                             .then(user => {
+                                var token = jwt.sign({
+                                    id: user._id,
+                                    username: user.username,
+                                    email: user.email
+                                }, "SuperSecRetKey", {
+                                    expiresIn: 86400 // expires in 24 hours
+                                  });
                                 res.json({
-                                    status: user.email + " registered"
+                                    status: user.email + " registered",
+                                    name: user.name,
+                                    surname:  user.surname,
+                                    email: user.email,
+                                    age: user.age,
+                                    token: token
                                 })
                             })
                             .catch(err => {
@@ -98,7 +110,7 @@ exports.login = (req, res) => {
                         expiresIn: 86400 // expires in 24 hours
                       });
                     res.json({
-                        status: "hello",
+                        status: "success",
                         name: user.name,
                         surname:  user.surname,
                         email: user.email,

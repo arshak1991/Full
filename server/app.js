@@ -8,7 +8,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 // const bootstrap = require('bootstrap');
 
-const indexRouter = require('./routes/index');
+// const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const conf = require('./config/index');
@@ -32,7 +32,6 @@ app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
