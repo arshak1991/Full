@@ -1,22 +1,46 @@
 <template>
-    <div id="content" class="hello">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
         <h1>{{ name }}</h1>
         <h2>{{ content.name }}</h2>
         <h2>{{ content.surname }}</h2>
         <button class="btn btn-danger" v-on:click="logout">Logout</button>
+      </div>
+      <div class="column">
+        <form @submit.prevent="sendFile" enctype="multipart/form-data" class="md-form">
+          <div class="file-field">
+            <div class="btn btn-primary btn-sm float-left">
+              <span>Choose file</span>
+              <input
+                type="file"
+                ref="file"
+                @change="selectFile"
+                class="file-input"
+              >
+            </div>
+            <div class="file-path-wrapper">
+              <button class="btn btn-info">Send File</button>
+              <!-- <input class="file-path validate" type="text" placeholder="Upload your file"> -->
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-// import Vue from 'vue'
-// import User from '../assets/functions.js'
-// const user = JSON.parse(localStorage.user);
-// console.log(user.name);
+import axios from 'axios'
+
 export default {
   name: 'Profile',
   data: function () {
     return {
-      content: {}
+      content: {},
+      file: '',
+      message: '',
+      error: false,
     }
   },
   created: function () {
@@ -34,6 +58,26 @@ export default {
     logout: function () {
       localStorage.removeItem('user')
       this.$router.push('/login')
+    },
+    selectFile () {
+      const file = this.$refs.file.files[0]
+      this.file = file
+      this.error = false
+      this.message = ''
+    },
+    async sendFile () {
+      const formData = new FormData()
+      formData.append('file', this.file)
+
+      try {
+        await axios.post('/users/upload', formData)
+        this.message = 'File has been uploaded'
+        this.file = ''
+        this.error = false
+      } catch (err) {
+        this.message = err.response.data.error
+        this.error = true
+      }
     }
   }
 }

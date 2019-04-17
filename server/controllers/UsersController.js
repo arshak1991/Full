@@ -23,6 +23,10 @@ exports.getUserById = (req, res, next)=>{
     })    
 };
 
+// exports.getUser = (req, res, next) => {
+
+// }
+
 exports.createUser = (req, res) => {
     const userData = {
         username: req.body.username,
@@ -86,16 +90,18 @@ exports.createUser = (req, res) => {
 
 exports.login = (req, res) => {
     const userData = {
-        email: req.body.email,
-        password: req.body.password
+        email: req.body.body.email,
+        password: req.body.body.password
     }
+    console.log(req.body.b);
+    
     Users.findOne({
-        email: req.body.email
+        email: req.body.body.email
     }).then(user =>{
         // console.log(userData.password);
         // console.log(user.password);
         if (user == null) {
-            res.json({
+            res.status(404).json({
                 error: "email is uncorrect",
             })
             
@@ -118,7 +124,7 @@ exports.login = (req, res) => {
                         token: token
                     })
                 } else {
-                    res.json({
+                    res.status(403).json({
                         error: "password is wrong"
                     })
                 }
@@ -126,3 +132,4 @@ exports.login = (req, res) => {
         }
     })
 }
+

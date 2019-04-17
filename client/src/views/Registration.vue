@@ -206,21 +206,18 @@ export default {
         .catch((err) => console.error(err))
     }
   },
-  created: function() {
+  created: function () {
     const len = localStorage.length
-    
     if (len !== 1) {
-       let users = JSON.parse(localStorage.user).status
-        if (users === 'success') {
-            this.$router.push('/account')
-        } else {
-            this.$router.push('/login')
-        }
+      let users = JSON.parse(localStorage.user).status
+      if (users === 'success') {
+        this.$router.push('/account')
+      } else {
+        this.$router.push('/login')
+      }
     } else {
-        this.$router.push('/register')
+      this.$router.push('/register')
     }
-    
-    
-  },
+  }
 }
 </script>

@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
 
@@ -44,36 +45,36 @@ export default {
   // created: function() {
   //   let users = JSON.parse(localStorage.user)
   //   console.log(users);
-    
   //   // if (users) {
-      
   //   // } else {
-      
   //   // }
   // },
   methods: {
     handleSubmit (e) {
       e.preventDefault()
       // console.log(this.email)
-      let reqBody = {
+      const reqBody = {
         email: this.email,
         password: this.password
       }
-      fetch('http://localhost:3000/users/login', {
-        method: 'POST',
-        body: JSON.stringify(reqBody),
+      console.log(reqBody);
+      
+      axios.post('/users/login', {
+        body: reqBody,
         headers: {
           'Content-Type': 'application/json'
         }
       }).then((response) => {
         // console.log(response)
-        return response.json()
-      }).then((data) => {
-        if (data.status === 'success') {
+        return response
+      }).then((data) => { 
+        console.log(data.data.status);
+               
+        if (data.data.status === 'success') {
           localStorage.setItem('user', JSON.stringify(data))
           this.$router.push('/account')
         } else {
-          alert(data.error);
+          alert(data.error)
           this.$router.push('/login')
         }
       })

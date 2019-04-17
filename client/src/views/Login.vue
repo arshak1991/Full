@@ -13,21 +13,18 @@ export default {
   components: {
     Login
   },
-  created: function() {
+  created: function () {
     const len = localStorage.length
-    
     if (len !== 1) {
-       let users = JSON.parse(localStorage.user).status
-        if (users === 'success') {
-            this.$router.push('/account')
-        } else {
-            this.$router.push('/login')
-        }
-    } else {
+      let users = JSON.parse(localStorage.user).status
+      if (users === 'success') {
+        this.$router.push('/account')
+      } else {
         this.$router.push('/login')
+      }
+    } else {
+      this.$router.push('/login')
     }
-    
-    
-  },
+  }
 }
 </script>
