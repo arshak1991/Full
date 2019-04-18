@@ -40,13 +40,14 @@ export default {
       content: {},
       file: '',
       message: '',
-      error: false,
+      error: false
     }
   },
   created: function () {
     try {
       let users = JSON.parse(localStorage.user)
-      this.content = users
+      this.content = users.data
+      console.log(users.data)
     } catch (error) {
       this.$router.push('/login')
     }
@@ -65,12 +66,23 @@ export default {
       this.error = false
       this.message = ''
     },
+    getUser () {
+      const user = localStorage.getItem('user')
+      const userJson = JSON.parse(user)
+      const data = userJson.data
+      return data
+    },
     async sendFile () {
       const formData = new FormData()
       formData.append('file', this.file)
-
+      const data = await this.getUser()
       try {
-        await axios.post('/users/upload', formData)
+        await axios.post('/users/upload', formData,
+          {
+            headers: {
+              Authorization: `Bearer ${data.token}`
+            }
+          })
         this.message = 'File has been uploaded'
         this.file = ''
         this.error = false
