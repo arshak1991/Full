@@ -46,7 +46,7 @@ export default {
   created: function () {
     try {
       let users = JSON.parse(localStorage.user)
-      this.content = users
+      this.content = users.data
     } catch (error) {
       this.$router.push('/login')
     }
@@ -70,6 +70,12 @@ export default {
       this.file = file
       this.error = false
       this.message = ''
+    },
+    getUser () {
+      const user = localStorage.getItem('user')
+      const userJson = JSON.parse(user)
+      const data = userJson.data
+      return data
     },
     async sendFile () {
       const formData = new FormData()

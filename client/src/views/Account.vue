@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Account name="Hellooooo World!!!"/>
+    <Account name="Welcome"/>
   </div>
 </template>
 

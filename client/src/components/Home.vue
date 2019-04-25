@@ -57,8 +57,6 @@ export default {
         email: this.email,
         password: this.password
       }
-      console.log(reqBody)
-
       axios.post('/users/login', {
         body: reqBody,
         headers: {
@@ -67,17 +65,16 @@ export default {
       }).then((response) => {
         // console.log(response)
         return response
-      }).then((data) => {
-        console.log(data.data.status)
-
-        if (data.data.status === 'success') {
-          localStorage.setItem('user', JSON.stringify(data))
-          this.$router.push('/account')
-        } else {
-          alert(data.error)
-          this.$router.push('/login')
-        }
       })
+        .then((data) => {
+          if (data.data.status === 'success') {
+            localStorage.setItem('user', JSON.stringify(data))
+            this.$router.push('/account')
+          } else {
+            alert(data.error)
+            this.$router.push('/login')
+          }
+        })
         .catch((err) => console.error(err))
     }
   }
