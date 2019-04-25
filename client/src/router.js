@@ -7,7 +7,7 @@ import Account from './views/Account.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -19,12 +19,18 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/account',
@@ -44,3 +50,20 @@ export default new Router({
     // }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log(to.meta.requiresAuth);
+  if (to.meta.requiresAuth) {
+    const authUser = JSON.parse(window.localStorage.getItem('user'))
+    // console.log(authUser);
+    // console.log(authUser.access_token);
+    if (!authUser) {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+  }
+  next()
+})
+
+export default router

@@ -93,7 +93,6 @@ exports.login = (req, res) => {
         email: req.body.body.email,
         password: req.body.body.password
     }
-    console.log(req.body.b);
     
     Users.findOne({
         email: req.body.body.email
@@ -133,3 +132,14 @@ exports.login = (req, res) => {
     })
 }
 
+exports.uploads = (req, res) => {
+    /*res.json({
+        file: req.file,
+        user: req.user
+    })*/
+    res.json({
+        file: req.file,
+        user: req.user
+    })
+    
+}

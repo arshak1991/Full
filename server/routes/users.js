@@ -24,11 +24,12 @@ router.get('/account', passport.authenticate('jwt', { session: false }), (req, r
         user: req.user
     })
 });
-router.post('/upload', upload.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({
+router.post('/upload', passport.authenticate('jwt', { session: false }), upload.single('file'), (req, res) => {
+    /*res.json({
         file: req.file,
         user: req.user
-    })
+    })*/
+    users.uploads
 });
 
 

@@ -47,7 +47,6 @@ export default {
     try {
       let users = JSON.parse(localStorage.user)
       this.content = users.data
-      console.log(users.data)
     } catch (error) {
       this.$router.push('/login')
     }
