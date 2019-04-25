@@ -40,7 +40,7 @@ export default {
       content: {},
       file: '',
       message: '',
-      error: false,
+      error: false
     }
   },
   created: function () {
@@ -59,6 +59,12 @@ export default {
       localStorage.removeItem('user')
       this.$router.push('/login')
     },
+    async getToken () {
+      const usersJson = await localStorage.getItem('user')
+      const user = await JSON.parse(usersJson)
+      const token = user.data.token
+      return token
+    },
     selectFile () {
       const file = this.$refs.file.files[0]
       this.file = file
@@ -67,10 +73,18 @@ export default {
     },
     async sendFile () {
       const formData = new FormData()
-      formData.append('file', this.file)
+      await formData.append('file', this.file)
+      // const usersJson = await localStorage.getItem('user');
+      const token = await this.getToken()
+      console.log(token);
+
 
       try {
-        await axios.post('/users/upload', formData)
+        await axios.post('/users/upload', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         this.message = 'File has been uploaded'
         this.file = ''
         this.error = false
