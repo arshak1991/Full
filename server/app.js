@@ -33,10 +33,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(conf.get("session")));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(__dirname + '/view'));
 app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+   successRedirect: '/account',
+   failureRedirect: '/login' 
+  }));
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

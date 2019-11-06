@@ -1,5 +1,6 @@
 module.exports = {
-    devServer: {
-        proxy: "http://localhost:3000"
-    }
+  outputDir: './../server/view',
+  devServer: {
+    proxy: "http://localhost:3000"
+  }
 }
